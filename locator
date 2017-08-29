@@ -1,0 +1,21 @@
+<span id="ctl00_cphCenterColumn_ucAddress_lblZip">Zip</span>
+
+info icon of Address
+
+<div class="eventstat-summary pR10 info-tool-tip">
+ <span class="info-tip"><span class="info-tool-tip-top"></span>
+   <span class="info-tool-tip-content">"Start typing your full address...."
+   </span>
+ </span>
+</div>
+
+
+info icon of "I don’t see my address in the list." 
+<div class="eventstat-summary info-tool-tip">
+<span class="info-tip">
+  <span class="info-tool-tip-top"></span>
+  <span class="info-tool-tip-content">" If your full address does not appear...."
+  </span>
+</span>
+</div>
+
