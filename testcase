@@ -1,0 +1,11 @@
+Rename Email to Personal Email in registration forms
+As an Event Staff member, I want to ensure that Event Attendees provide their personal email addresses so that I can better stay in touch with them at events
+
+
+The label 'Email' must be changed to 'Personal Email' on all ANG Event Registration forms that provide this field
+The label change will be present in the Edit Event -> Registration screens
+The label change will be present for all events (historical and new events)
+Registration Report
+Aggregated Registration Report (NOT applicable)
+
+ang only
