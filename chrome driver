@@ -1,1 +1,10 @@
 Element is not clickable at point (1376, 3847)
+
+https://stackoverflow.com/questions/6101461/how-to-force-selenium-webdriver-to-click-on-element-which-is-not-currently-visib
+
+best：
+http://www.seleniumeasy.com/selenium-tutorials/element-is-not-clickable-at-point-selenium-webdriver-exception
+
+https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/2766
+
+http://www.9i9icenter.com/huanqiuNews/59a706dd8f94eb7efabb518e
