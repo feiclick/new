@@ -1,5 +1,9 @@
 Element is not clickable at point (1376, 3847)
 
+Selenium – version 3.5.3
+Chrome Browser – version 61
+ChromeDriver – version 2.32
+
 https://stackoverflow.com/questions/6101461/how-to-force-selenium-webdriver-to-click-on-element-which-is-not-currently-visib
 
 best：
