@@ -12,3 +12,7 @@ http://www.seleniumeasy.com/selenium-tutorials/element-is-not-clickable-at-point
 https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/2766
 
 http://www.9i9icenter.com/huanqiuNews/59a706dd8f94eb7efabb518e
+
+another issue:
+Instead of System.Drawing.Imaging.ImageFormat.Png as the 2nd param of your SaveAsFile, you need to use OpenQA.Selenium.ScreenshotImageFormat.[something here]
+That enum probably has it's own PNG format.
