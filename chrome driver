@@ -16,3 +16,25 @@ http://www.9i9icenter.com/huanqiuNews/59a706dd8f94eb7efabb518e
 another issue:
 Instead of System.Drawing.Imaging.ImageFormat.Png as the 2nd param of your SaveAsFile, you need to use OpenQA.Selenium.ScreenshotImageFormat.[something here]
 That enum probably has it's own PNG format.
+
+G.使用 XPATH定位
+例：<input id="passport_user" type="text" value="" title="用户名/邮箱" name="passport_user">
+    WebElement element =dr.findElement(By.xpath("//input[@id='passport_user']"));
+
+parent::返回父节点
+following::返回此节点后面的兄弟节点
+preceding::返回此节点前面的兄弟节点
+
+div>
+<input id="location1" type="button" />
+<input type="button" />
+</div>
+
+通过id为location1可以很随意的定位到兄弟节点
+//div/input[@id='location1']/following::input
+
+也可以通过location1很随意的定位到父类节点div。
+//div/input[@id='location1']/parent::div。
+
+也可以通过索引为2的input定位到id为location1的input
+//div/input[2]/preceding-sibling::input
