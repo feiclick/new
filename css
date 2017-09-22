@@ -1,0 +1,8 @@
+
+        public static By StartTime =By.CssSelector("div.item-field > div.items-container datePicker > div.ctl00_cphCenterColumn_dtpStartDate > input.ctl00$cphCenterColumn$dtpStartDate$txtDate");
+        public static By EndTime = By.CssSelector("div.ctl00_cphCenterColumn_dtpEndDate > input.ctl00$cphCenterColumn$dtpEndDate$txtDate");
+
+        public static By RegisterBy = By.CssSelector("div.ctl00_cphCenterColumn_dtpStartDate > input.ctl00$cphCenterColumn$dtpRegisterByDate$txtDate");
+
+        public static By DisplayFrom =By.CssSelector("div.ctl00_cphCenterColumn_dtpDisplayFromDate > input.ctl00$cphCenterColumn$dtpDisplayFromDate$txtDate");
+
