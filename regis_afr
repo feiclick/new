@@ -1,0 +1,155 @@
+using System;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.UI;
+
+namespace SeleniumTests
+{
+    [TestFixture]
+    public class AFRRegisterA
+    {
+        private IWebDriver driver;
+        private StringBuilder verificationErrors;
+        private string baseURL;
+        private bool acceptNextAlert = true;
+        
+        [SetUp]
+        public void SetupTest()
+        {
+            driver = new FirefoxDriver();
+            baseURL = "https:/URL";
+            verificationErrors = new StringBuilder();
+        }
+        
+        [TearDown]
+        public void TeardownTest()
+        {
+            try
+            {
+                driver.Quit();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
+            Assert.AreEqual("", verificationErrors.ToString());
+        }
+        
+        [Test]
+        public void TheAFRRegisterATest()
+        {
+            driver.Navigate().GoToUrl(baseURL + "/");
+            Assert.AreEqual("EventPLUS", driver.Title);
+            new SelectElement(driver.FindElement(By.Id("ddlComponents"))).SelectByText("Air Force Reserve");
+            driver.FindElement(By.Id("lnkSubmit")).Click();
+            Assert.AreEqual("Event Listing", driver.Title);
+            driver.FindElement(By.CssSelector("a.register-icon")).Click();
+            Assert.AreEqual("Event Registration", driver.Title);
+            new SelectElement(driver.FindElement(By.Id("ctl00_cphCenterColumn_UcEventRegistration1_ddlPreSelectCat"))).SelectByText("Leadership");
+            new SelectElement(driver.FindElement(By.Id("ctl00_cphCenterColumn_UcEventRegistration1_ddlPreSelectCat"))).SelectByText("Attendee");
+            new SelectElement(driver.FindElement(By.Id("ddlDeploymentPhase"))).SelectByText("Pre");
+            driver.FindElement(By.Id("txtFN")).Clear();
+            driver.FindElement(By.Id("txtFN")).SendKeys("A");
+            driver.FindElement(By.Id("txtLN")).Clear();
+            driver.FindElement(By.Id("txtLN")).SendKeys("A");
+            new SelectElement(driver.FindElement(By.Id("ddlServiceComponent"))).SelectByText("Air Force");
+            new SelectElement(driver.FindElement(By.Id("ddlComponent"))).SelectByText("Active Duty");
+            new SelectElement(driver.FindElement(By.Id("ddlPrefix"))).SelectByText("1stLt");
+            driver.FindElement(By.Id("txtEmail")).Clear();
+            driver.FindElement(By.Id("txtEmail")).SendKeys("a@a.com");
+            new SelectElement(driver.FindElement(By.Id("ddlDrillingState"))).SelectByText("Alabama");
+            driver.FindElement(By.Id("ui-id-3")).Click();
+            driver.FindElement(By.Id("txtUnitUic")).Clear();
+            driver.FindElement(By.Id("txtUnitUic")).SendKeys("W11LFH70");
+            new SelectElement(driver.FindElement(By.Id("ddlGender"))).SelectByText("Male");
+            new SelectElement(driver.FindElement(By.Id("ddlMaritalStatus"))).SelectByText("Married");
+            new SelectElement(driver.FindElement(By.Id("ResidentialddlState"))).SelectByText("Alabama");
+            driver.FindElement(By.Id("txtResidentialAddress")).Clear();
+            driver.FindElement(By.Id("txtResidentialAddress")).SendKeys("123");
+            driver.FindElement(By.Id("txtResidentialCity")).Clear();
+            driver.FindElement(By.Id("txtResidentialCity")).SendKeys("ABC");
+            driver.FindElement(By.Id("txtResidentialZipcode")).Click();
+            driver.FindElement(By.Id("txtSecondaryEmail")).Clear();
+            driver.FindElement(By.Id("txtSecondaryEmail")).SendKeys("a@a.com");
+            driver.FindElement(By.XPath("(//input[@type='text'])[15]")).Clear();
+            driver.FindElement(By.XPath("(//input[@type='text'])[15]")).SendKeys("a@a.com");
+            new SelectElement(driver.FindElement(By.Id("ddlSmsAceptance"))).SelectByText("I do not agree");
+            driver.FindElement(By.Id("dp1506100498040")).Click();
+            driver.FindElement(By.LinkText("1")).Click();
+            driver.FindElement(By.Id("dp1506100498041")).Click();
+            driver.FindElement(By.LinkText("14")).Click();
+            // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+            driver.FindElement(By.Id("txtClerkName")).Clear();
+            driver.FindElement(By.Id("txtClerkName")).SendKeys("abc");
+            driver.FindElement(By.Id("txtClerkEmail")).Clear();
+            driver.FindElement(By.Id("txtClerkEmail")).SendKeys("a@a.com");
+            driver.FindElement(By.Id("txtClerkDsn")).Clear();
+            driver.FindElement(By.Id("txtClerkDsn")).SendKeys("abc");
+            new SelectElement(driver.FindElement(By.XPath("//div[@id='PrimaryAttendeeEdit']/div[35]/div/select"))).SelectByText("Notice within a week of the event");
+            driver.FindElement(By.CssSelector("textarea.form-control.standard-4")).Clear();
+            driver.FindElement(By.CssSelector("textarea.form-control.standard-4")).SendKeys("abc");
+            // Guest
+            driver.FindElement(By.Id("addAnotherAttendeeButton")).Click();
+            driver.FindElement(By.CssSelector("div.row.form-group > div.col-md-4 > input.form-control")).Clear();
+            driver.FindElement(By.CssSelector("div.row.form-group > div.col-md-4 > input.form-control")).SendKeys("child");
+            driver.FindElement(By.XPath("(//input[@type='text'])[24]")).Clear();
+            driver.FindElement(By.XPath("(//input[@type='text'])[24]")).SendKeys("a");
+            // ERROR: Caught exception [unknown command [input]]
+            // ERROR: Caught exception [unknown command []]
+            // FirstNme/LastName
+            new SelectElement(driver.FindElement(By.CssSelector("div.col-md-4 > select.form-control"))).SelectByText("DEERS Eligible Dependent");
+            new SelectElement(driver.FindElement(By.XPath("//div[@id='OtherAttendeeEdit']/div/div/div[4]/div/select"))).SelectByText("Civilian");
+            // Date of Birth
+            // ERROR: Caught exception [unknown command [input]]
+            new SelectElement(driver.FindElement(By.CssSelector("div.col-md-4.mTB5 > select.form-control"))).SelectByText("I do not agree");
+            driver.FindElement(By.Id("addAnotherAttendeeButton")).Click();
+            new SelectElement(driver.FindElement(By.XPath("//div[@id='OtherAttendeeEdit']/div/div[2]/div[4]/div/select"))).SelectByText("Civilian");
+            driver.FindElement(By.Id("dp1506100498043")).Click();
+            driver.FindElement(By.LinkText("8")).Click();
+        }
+        private bool IsElementPresent(By by)
+        {
+            try
+            {
+                driver.FindElement(by);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+        
+        private bool IsAlertPresent()
+        {
+            try
+            {
+                driver.SwitchTo().Alert();
+                return true;
+            }
+            catch (NoAlertPresentException)
+            {
+                return false;
+            }
+        }
+        
+        private string CloseAlertAndGetItsText() {
+            try {
+                IAlert alert = driver.SwitchTo().Alert();
+                string alertText = alert.Text;
+                if (acceptNextAlert) {
+                    alert.Accept();
+                } else {
+                    alert.Dismiss();
+                }
+                return alertText;
+            } finally {
+                acceptNextAlert = true;
+            }
+        }
+    }
+}
