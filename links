@@ -1,0 +1,40 @@
+
+ANG 10/10/2017 -10/11/2017
+pre login 
+green icon
+/Events/EventRegistrationRequest.aspx?Mode=AddNew&Id=aa6b624d-0f6a-981a-d0a1-11e7a8697fb9
+
+deployment phase: 
+/Events/EventDetails.aspx?Mode=ReadOnly&Id=aa6b624d-0f6a-981a-d0a1-11e7a8697fb9
+
+
+post login
+deployment phase: 
+/Events/EventDetails.aspx?Mode=ReadOnly&Id=aa6b624d-0f6a-981a-d0a1-11e7a8697fb9
+
+green icon
+/Events/EventRegistrationRequest.aspx?Mode=AddNew&ShowMenu=1&Id=aa6b624d-0f6a-981a-d0a1-11e7a8697fb9
+
+
+
+        [TestMethod]
+        public void TheGreenIconPreLoginTest()
+        {
+            //ANG 
+            _driver.Navigate().GoToUrl(_baseURL + "/Default.aspx");
+            Assert.AreEqual("EventPLUS", _driver.Title);
+            HomePage.Search(HostingComponent.StrAngName, DeploymentPhase.StrDemobilizationName);
+            Common.WaitForSpinner(EventListing.spinnerBy);
+         
+            //uncheck - All 
+            _driver.FindElement(By.CssSelector("div.stateTabDiv.tabsContent.stateBlock > div.filterBlockTitle > input")).Click();
+            //select Wisconsin
+            _driver.FindElement(By.Id("ctl00_cphLeftColumn_chkStates_ctl56_chkState")).Click();
+            //update
+            _driver.FindElement(By.Id("ctl00_cphLeftColumn_UpdateButtonTop")).Click();
+
+            //find the green icon - Table id?
+            _driver.FindElement(By.CssSelector("tr.SelectedRow > td:nth-of-type(8) > div > a.register-icon")).Click();
+           
+
+        }
