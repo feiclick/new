@@ -1,3 +1,12 @@
 fixed part at starting - using carrot character(^)
 fixed part at middle - using Asterisk sign(*)
 fixed part at end - use dollar sign($)
+
+https://www.guru99.com/handling-dynamic-selenium-webdriver.html
+
+http://www.softwaretestinghelp.com/selenium-tutorial-18/ 
+
+http://toolsqa.com/selenium-webdriver/handle-dynamic-webtables-in-selenium-webdriver/
+
+get attribute- id
+http://blog.csdn.net/qq_15158911/article/details/54572193?locationNum=11&fps=1
