@@ -1,3 +1,32 @@
+///////
+Pattern p = Pattern.compile("http.*\\?v=([a-zA-Z0-9_\\-]+)(?:&.)*");
+String url = "http://www.youtube.com/watch?v=_RCIP6OrQrE";
+Matcher m = p.matcher(url.trim()); //trim to remove leading and trailing space if any
+
+if (m.matches()) {
+    url = m.group(1);        
+}
+/////
+[TestMethod]
+        public void TestMethod1()
+        {
+            IWebDriver driver = new ChromeDriver();
+            //driver.Url = "dev1.yellowribbonevents.org";
+            driver.Url = "https://dev1.yellowribbonevents.org/Events/Default.aspx?csid=46517c33-a853-48d0-b05b-17e8acbd9577&Component=19e31b3f-d03d-462c-9a8e-ae38d2529bf4&Title=c3222be8-062e-4e25-b789-dde3741dada9&State=00000000-0000-0000-0000-000000000000";
+            //click on event
+            Thread.Sleep(5000);
+            driver.FindElement(By.Id("ctl00_cphCenterColumn_gridEventsListInner_cell_1_0")).Click();
+            Thread.Sleep(3000);
+            string currentUrl = driver.Url;
+
+            //          
+            Uri theUri = new Uri(currentUrl);
+            string id = HttpUtility.ParseQueryString(theUri.Query).Get("Mode=ReadOnly&Id");
+
+            //assert
+            Assert.AreEqual("3ec67d6c-ff03-7bb7-2bde-11e7a2f136c5", id);
+//////
+
 get the id from url?
 1. 
 Request.Url.Query
