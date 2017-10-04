@@ -1,3 +1,11 @@
+get the id from url?
+1. 
+Request.Url.Query
+string url = HttpContent.Current.Request.Url.Query;
+2. 
+driver.getCurrenturl();
+string id = Request.QueryString["id"];
+or System.Collections.Specialized.NameValueCollection col = Request.QueryString; string strID = col[”id”];
 
 ANG 10/10/2017 -10/11/2017
 pre login 
