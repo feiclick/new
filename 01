@@ -1,0 +1,43 @@
+  [TestMethod]
+        public void CreateEvent_SaveDraft()
+        {
+            
+            string[] depPhase = new string[] { DeploymentPhase.strPredeploymentName };
+            LoginPage.Login();
+            EventListing.Addevents();
+            CreateEventProperties.EnterEventDefaultDtls();
+            CreateEventProperties.EnterAfr(depPhase);
+            //CreateEventBreakout.CreateBreakoutSessionManual("test automation", "session", CreateEventProperties.GetEventDate());
+            Thread.Sleep(2000);
+            CreateEventBreakout.SaveDraft();
+
+            Thread.Sleep(5000);
+
+            //get the id from url
+
+            string currentUrl = Driver.Instance.Url;
+          
+            var parts = currentUrl.Split(new char[] {'?', '&'}).Last();
+
+            var Id = currentUrl.Split('&').Last();
+        
+            var val = Id.Split('=').Last();
+
+            var id = val.Split('#').First();
+      
+
+            Assert.AreEqual("aa6b624d-0f6a-981a-d0a1-11e7a8697fb9", id);
+            
+             ///////////////////
+            string Searchtitle = CreateEventProperties.strAfrEventTitle;
+            PublishConfirmationPopUp.GobackHome();
+            // logout
+            EventListing.LogOut();
+
+            // prelogin search
+            HomePage.Search(HostingComponent.StrAfrName, DeploymentPhase.strPredeploymentName);
+            Common.WaitForSpinner(EventListing.spinnerBy);
+            testResult = EventListing.FindEvent(Searchtitle);
+            Assert.IsTrue(testResult, "Event was not found");
+            Driver.GetScreenShot(TestHelper.ScreenShotDir + TestHelper.TestcaseName + "-publish.png");
+        }
