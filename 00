@@ -1,0 +1,34 @@
+
+        [TestMethod]
+        public void TestMethod1()
+        {
+            IWebDriver driver = new ChromeDriver();
+            //driver.Url = "dev1.yellowribbonevents.org";
+            //driver.Url = "https://dev1.yellowribbonevents.org/Events/Default.aspx?csid=46517c33-a853-48d0-b05b-17e8acbd9577&Component=19e31b3f-d03d-462c-9a8e-ae38d2529bf4&Title=c3222be8-062e-4e25-b789-dde3741dada9&State=00000000-0000-0000-0000-000000000000";
+            driver.Navigate().GoToUrl("http://image.baidu.com/search/index?tn=baiduimage&ps=1&ct=201326592&lm=-1&cl=2&nc=1&ie=utf-8&word=c%23%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B5%E9%9D%A2url%E4%B8%AD%E7%9A%84ID%E5%80%BC");
+            Thread.Sleep(3000);
+
+            //driver.Navigate().GoToUrl("https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=c%23%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B5%E9%9D%A2url%E4%B8%AD%E7%9A%84ID%E5%80%BC&step_word=&hs=0&pn=1&spn=0&di=63913093420&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=4005332102%2C4215411769&os=1427699557%2C585849538&simid=3476763036%2C143455455&adpicid=0&lpn=0&ln=1081&fr=&fmq=1507168092602_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fimg.blog.csdn.net%2F20131002152450500%3Fwatermark%2F2%2Ftext%2FaHR0cDovL2Jsb2cuY3Nkbi5uZXQvRWFzdG1vdW50%2Ffont%2F5a6L5L2T%2Ffontsize%2F400%2Ffill%2FI0JBQkFCMA%3D%3D%2Fdissolve%2F70%2Fgravity%2FCenter&fromurl=ippr_z2C%24qAzdH3FAzdH3Fks52_z%26e3Bvf1g_z%26e3BgjpAzdH3Fjwfp457gpAzdH3Fw6ptvsjAzdH3F1jpwtsfAzdH3F8ddnccd8&gsm=0&rpstart=0&rpnum=0");
+            driver.FindElement(By.CssSelector("ul.imglist.clearfix > li:nth-of-type(2) > div.imgbox > a > img.main_img")).Click();
+            //driver.FindElement(By.Id("ctl00_cphCenterColumn_gridEventsListInner_cell_1_0")).Click();
+
+            Thread.Sleep(9000);
+
+            ////
+            //switch tabs
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("window.open();");
+            IList<string> tabs = new List<string>(driver.WindowHandles);
+            driver.SwitchTo().Window(tabs[1]);
+
+            ////
+             string currentUrl = driver.Url;
+         
+            //          
+            Uri theUri = new Uri(currentUrl);
+            string id = HttpUtility.ParseQueryString(theUri.Query).Get("is");
+
+            //assert
+            Assert.AreEqual("3ec67d6c-ff03-7bb7-2bde-11e7a2f136c5", id);
+
+        }
