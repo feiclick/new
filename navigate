@@ -1,0 +1,247 @@
+using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Policy;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Web;
+using DailyTest.Helpers;
+using DailyTest.Pages;
+using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.UI;
+
+namespace DailyTest.TestCases
+{
+    [TestClass]
+    public class Regression
+    {
+         static bool testResult;
+         public static By publish = By.Id("ctl00_cphCenterColumn_btnPublish");
+         public static By saveDraft = By.Id("ctl00_cphCenterColumn_btnSaveDraft");
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            string url = TestHelper.StrUrl;
+            TestHelper.LaunchSite(url);      
+        }
+       
+        [TestMethod]
+        public void ANG_Register_RegisterIcon_Prelogin()
+
+        {
+            string[] depPhase = new string[] { DeploymentPhase.strTrainingName, DeploymentPhase.strPredeploymentName, DeploymentPhase.StrDemobilizationName };
+            LoginPage.Login();
+            EventListing.Addevents();
+            CreateEventProperties.EnterEventDefaultDtls();
+            CreateEventProperties.EnterAng(depPhase);
+            CreateEventBreakout.CreateBreakoutSessionManual("test automation", "session", CreateEventProperties.GetEventDate());
+            CreateEventBreakout.SaveDraft();  
+            
+            //get the id          
+            string currentUrl = Driver.Instance.Url;
+            Uri theUri = new Uri(currentUrl);
+            string id = HttpUtility.ParseQueryString(theUri.Query).Get("Id");
+
+            //publish          
+            CreateEventBreakout.Publish();      
+            Driver.Instance.SwitchTo().Alert().Accept();
+            testResult = PublishConfirmationPopUp.validate();
+            Driver.GetScreenShot(TestHelper.ScreenShotDir + TestHelper.TestcaseName + "-publish.png");
+            PublishConfirmationPopUp.GobackHome();  
+            
+            //pre login search event
+            EventListing.LogOut();
+            HomePage.Search(HostingComponent.StrAngName, DeploymentPhase.StrDemobilizationName);      
+            Thread.Sleep(2000);
+            TestHelper.ClickElement(By.CssSelector(TestHelper.RegisterIconPreLogin(id)), "click green icon");
+            Assert.AreEqual("Event Registration", Driver.Instance.Title);
+        }
+  
+        [TestMethod]
+        public void ANG_EventDetailsPage_RegisterNow_PreLogin()
+
+        {
+            string[] depPhase = new string[] { DeploymentPhase.strTrainingName, DeploymentPhase.strPredeploymentName, DeploymentPhase.StrDemobilizationName };
+            LoginPage.Login();
+            EventListing.Addevents();
+            CreateEventProperties.EnterEventDefaultDtls();
+            CreateEventProperties.EnterAng(depPhase);
+            CreateEventBreakout.CreateBreakoutSessionManual("test automation", "session", CreateEventProperties.GetEventDate());
+            CreateEventBreakout.SaveDraft();
+
+            //get the id
+            Thread.Sleep(1000);
+            string currentUrl = Driver.Instance.Url;
+            Uri theUri = new Uri(currentUrl);
+            string id = HttpUtility.ParseQueryString(theUri.Query).Get("Id");
+
+            //publish
+            CreateEventBreakout.Publish();
+            Driver.Instance.SwitchTo().Alert().Accept();         
+            testResult = PublishConfirmationPopUp.validate();
+            Driver.GetScreenShot(TestHelper.ScreenShotDir + TestHelper.TestcaseName + "-publish.png");
+            PublishConfirmationPopUp.GobackHome();
+
+            //pre login search event
+            EventListing.LogOut();
+            HomePage.Search(HostingComponent.StrAngName, DeploymentPhase.StrDemobilizationName);
+            Common.WaitForSpinner(EventListing.spinnerBy);
+
+            //click phases
+            TestHelper.ClickElement(By.CssSelector(TestHelper.DeploymentPhaseHref(id)), "Click on Deployment phases");
+            Assert.AreEqual("Event Details", Driver.Instance.Title);        
+            EventDetails.RegisterNow();
+        }
+
+        [TestMethod]
+        public void ARNG_Register_RegisterIcon_PostLogin()
+
+        {
+            string[] depPhase = new string[] { DeploymentPhase.StrPostdeployment90DayName };
+            LoginPage.Login();
+            EventListing.Addevents();
+            CreateEventProperties.EnterEventDefaultDtls();
+            CreateEventProperties.EnterArng(depPhase);
+            CreateEventBreakout.CreateBreakoutSessionManual("test automation", "session", CreateEventProperties.GetEventDate());
+            CreateEventBreakout.SaveDraft();
+
+            //get the id          
+            string currentUrl = Driver.Instance.Url;
+            Uri theUri = new Uri(currentUrl);
+            string id = HttpUtility.ParseQueryString(theUri.Query).Get("Id");
+
+            //publish
+            CreateEventBreakout.Publish();
+            Driver.Instance.SwitchTo().Alert().Accept();            
+            testResult = PublishConfirmationPopUp.validate();
+            Driver.GetScreenShot(TestHelper.ScreenShotDir + TestHelper.TestcaseName + "-publish.png");
+            PublishConfirmationPopUp.GobackHome();
+
+            //Register now
+            Common.WaitForSpinner(EventListing.spinnerBy);
+            TestHelper.ClickElement(By.CssSelector(TestHelper.RegisterIconPostLogin(id)), "click green icon");
+            Assert.AreEqual("Event Registration", Driver.Instance.Title);
+        }
+
+
+        [TestMethod]
+        public void ANG_ManageRegistrationPage_RegisterAnAttendee_PostLogin()
+
+        {
+            string[] depPhase = new string[] { DeploymentPhase.strTrainingName, DeploymentPhase.strPredeploymentName, DeploymentPhase.StrDemobilizationName };
+            LoginPage.Login();
+            EventListing.Addevents();
+            CreateEventProperties.EnterEventDefaultDtls();
+            CreateEventProperties.EnterAng(depPhase);
+            CreateEventBreakout.CreateBreakoutSessionManual("test automation", "session", CreateEventProperties.GetEventDate());
+            CreateEventBreakout.SaveDraft();          
+
+            //get the id            
+            string currentUrl = Driver.Instance.Url;
+            Uri theUri = new Uri(currentUrl);
+            string id = HttpUtility.ParseQueryString(theUri.Query).Get("Id");
+
+            //publish
+            CreateEventBreakout.Publish();
+            Driver.Instance.SwitchTo().Alert().Accept();         
+            testResult = PublishConfirmationPopUp.validate();
+            Driver.GetScreenShot(TestHelper.ScreenShotDir + TestHelper.TestcaseName + "-publish.png");
+            PublishConfirmationPopUp.GobackHome();            
+            Common.WaitForSpinner(EventListing.spinnerBy);
+
+            //open event details
+            TestHelper.ClickElement(By.CssSelector(TestHelper.DeploymentPhaseHref(id)), "Click on Deployment phases");
+            Assert.AreEqual("Event Details", Driver.Instance.Title);
+
+            EventDetails.Registration();
+            Assert.AreEqual("Manage Event Registrations", Driver.Instance.Title);
+
+            Thread.Sleep(1000);
+            TestHelper.ClickElement(By.Id("ctl00_cphCenterColumn_lnkRegisterAttendee"), "+ Register an attendee");
+            Assert.AreEqual("Event Registration", Driver.Instance.Title);
+        }
+
+
+        [TestMethod]
+        public void ANG_Kiosk_PreLogin()
+
+        {
+            string[] depPhase = new string[] { DeploymentPhase.strTrainingName, DeploymentPhase.strPredeploymentName, DeploymentPhase.StrDemobilizationName };
+            LoginPage.Login();
+            EventListing.Addevents();
+            CreateEventProperties.EnterEventDefaultDtls();
+            CreateEventProperties.EnterAng(depPhase);
+            CreateEventBreakout.CreateBreakoutSessionManual("test automation", "session", CreateEventProperties.GetEventDate());
+            CreateEventBreakout.SaveDraft();
+
+            //get the id
+            Thread.Sleep(3000);
+            string currentUrl = Driver.Instance.Url;
+            Uri theUri = new Uri(currentUrl);
+            string id = HttpUtility.ParseQueryString(theUri.Query).Get("Id");
+
+            //publish
+            CreateEventBreakout.Publish();
+            Driver.Instance.SwitchTo().Alert().Accept();
+            Thread.Sleep(1000);
+            testResult = PublishConfirmationPopUp.validate();
+            Driver.GetScreenShot(TestHelper.ScreenShotDir + TestHelper.TestcaseName + "-publish.png");
+            PublishConfirmationPopUp.GobackHome();        
+            
+            //logout
+            EventListing.LogOut();
+
+            //Navigate to Kiosk Registration page
+            Driver.Instance.Navigate().GoToUrl(TestHelper.KioskRegister(id));                     
+            Assert.AreEqual("Event Registration", Driver.Instance.Title);
+            TestHelper.ClickElement(By.Id("lnkShowRegister"), "Register Now");           
+            Assert.AreEqual("Registration Information", Driver.Instance.FindElement(By.CssSelector("h1.popupHeading")).Text);
+        }
+
+        [TestMethod]
+        public void ANG_Kiosk_PostLogin()
+
+        {
+            string[] depPhase = new string[] { DeploymentPhase.strTrainingName, DeploymentPhase.strPredeploymentName, DeploymentPhase.StrDemobilizationName };
+            LoginPage.Login();
+            EventListing.Addevents();
+            CreateEventProperties.EnterEventDefaultDtls();
+            CreateEventProperties.EnterAng(depPhase);
+            CreateEventBreakout.CreateBreakoutSessionManual("test automation", "session", CreateEventProperties.GetEventDate());
+            CreateEventBreakout.SaveDraft();
+
+            //get the id
+            Thread.Sleep(3000);
+            string currentUrl = Driver.Instance.Url;
+            Uri theUri = new Uri(currentUrl);
+            string id = HttpUtility.ParseQueryString(theUri.Query).Get("Id");
+
+            //publish
+            CreateEventBreakout.Publish();
+            Driver.Instance.SwitchTo().Alert().Accept();
+            Thread.Sleep(1000);
+            testResult = PublishConfirmationPopUp.validate();
+            Driver.GetScreenShot(TestHelper.ScreenShotDir + TestHelper.TestcaseName + "-publish.png");
+            PublishConfirmationPopUp.GobackHome();
+
+            //Navigate to Kiosk Registration page
+            Driver.Instance.Navigate().GoToUrl(TestHelper.KioskRegister(id));                              
+            Assert.AreEqual("Event Registration", Driver.Instance.Title);
+            TestHelper.ClickElement(By.Id("lnkShowRegister"), "Register Now");
+            Assert.AreEqual("Registration Information", Driver.Instance.FindElement(By.CssSelector("h1.popupHeading")).Text);
+            Assert.AreEqual("Walk-in Registrant", Driver.Instance.FindElement(By.CssSelector("label.walk-in-registrant > strong")).Text);
+              
+        }
+
+    }
+
+}
