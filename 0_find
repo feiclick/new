@@ -1,0 +1,139 @@
+    public class EventListing
+    {
+        public static By PageloadElement = By.Id("lblPageTitle");
+        public static By LogOutBy = By.Id("ctl00_ucLoginBar_lnkLogout");
+        public static By spinnerBy = By.ClassName("gridSpinnerTable");
+
+        public static bool FindEvent(string eventname)
+        {
+            int rownum = 0;
+            ValidateEventPage();
+            Common.WaitForSpinner(spinnerBy);
+            int x = Int32.Parse(TestHelper.GetText(PageloadElement).Split()[1]);
+            int loop = x / 49;
+            bool strResult = false;
+
+            for (int page = 0; page <= loop; page++)
+            {
+                Common.WaitForSpinner(spinnerBy);
+                ValidateEventPage();
+                By tbl = By.Id("ctl00_cphCenterColumn_gridEventsListInner_dom");
+                TestHelper.FindElement(tbl, TestHelper.MaxWait, "Search Event table , Page =" + (page + 1));
+
+                var container = Driver.Instance.FindElement(tbl);
+                var table = container.FindElement(By.TagName("table"));
+                var rows = table.FindElements(By.TagName("tr"));
+
+                // Each page
+                foreach (var row in rows)
+                {
+                    String txt = row.Text;
+                    if (txt.Contains(eventname))
+                    {
+                        int i = rownum - ((page + 1) * 10);
+                        TestHelper.Logger.Info("Result found in row number  -- " + i.ToString());
+                        var col = row.FindElements(By.TagName("td"));
+                        foreach (var cell in col)
+                        {
+                            Debug.WriteLine(cell.Text);
+                            strResult = true;
+                            return strResult;
+                        }
+
+                    }
+                    rownum++;
+                } // page ends here
+                //click next here
+                var _tmp = "//*[@id='gridPager']/div[" + (loop + 4) + "]";
+                if ((page + 1) <= loop)
+                {
+                    Driver.Instance.FindElement(By.XPath(_tmp)).Click();
+                    Common.WaitForSpinner(spinnerBy);
+                }
+
+            }
+            return strResult;
+        }
+
+
+        public static void ValidateEventPage()
+        {
+            Assert.IsTrue(TestHelper.FindElement(PageloadElement, TestHelper.MaxWait, "Validating event page"));
+        }
+
+        private static void SelectEventAction(string mainNav, string subNav)
+        {
+            // Events
+            ValidateEventPage();
+            //Add Event
+            IList<IWebElement> heading;
+            heading = Driver.Instance.FindElements(By.ClassName("insideNav"));
+
+            foreach (var item in heading)
+            {
+                if (item.Text == mainNav)
+                {
+                    Actions action = new Actions(Driver.Instance);
+                    action.MoveToElement(item).Perform();
+                    break;
+                }
+            }
+            IList<IWebElement> subheading;
+            subheading = Driver.Instance.FindElements(By.ClassName("insideSubNav"));
+            foreach (var item in subheading)
+            {
+                if (item.Text == subNav)
+                {
+                    Actions action = new Actions(Driver.Instance);
+                    item.Click();
+                    break;
+                }
+            }
+        }
+
+        public static void Addevents()
+        {
+            SelectEventAction("Events", "Add Event");
+        }
+
+        public static void ClearLocation()
+        {
+            IList<IWebElement> btnAdd = Driver.Instance.FindElements(By.ClassName("filterBlockTitle"));
+            btnAdd[1].FindElement(By.TagName("input")).Click();
+            btnAdd[1].FindElement(By.TagName("input")).Click();
+            TestHelper.Logger.Info("clearing all location values in event search page");
+        }
+
+        public static void ClearComponents()
+        {
+            //unchecking all components
+            By tbl = By.Id("ctl00_cphLeftColumn_chkComponents");
+            var table = Driver.Instance.FindElement(tbl);
+            var rows = table.FindElements(By.TagName("tr"));
+
+            // Each page
+            foreach (var row in rows)
+            {
+                var col = row.FindElements(By.TagName("td"));
+                foreach (var cell in col)
+                {
+                    cell.Click();
+                }
+            }
+        }
+
+        public static void ClickUpdate()
+        {
+            By update = By.Id("ctl00_cphLeftColumn_UpdateButtonBottom");
+            By spinnerBy = By.ClassName("gridSpinnerTable");
+            TestHelper.ClickElement(update, "update");
+            //System.Threading.Thread.Sleep(2000);
+            Common.WaitForSpinner(spinnerBy);
+        }
+
+        public static void LogOut()
+        {
+            TestHelper.ClickElement(LogOutBy, "Logging out of eventPLUS");
+        }
+      
+    }
