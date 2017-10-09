@@ -1,4 +1,7 @@
-  public void ANG_Register_RegisterIcon_Prelogin()
+
+
+
+public void ANG_Register_RegisterIcon_Prelogin()
 
         {
             string[] depPhase = new string[] { DeploymentPhase.strTrainingName, DeploymentPhase.strPredeploymentName, DeploymentPhase.StrDemobilizationName };
@@ -27,4 +30,57 @@
             Thread.Sleep(2000);
             TestHelper.ClickElement(By.CssSelector(TestHelper.RegisterIconPreLogin(id)), "click green icon");
             Assert.AreEqual("Event Registration", Driver.Instance.Title);
+        }
+///
+
+public static void ClickElement(By obj, string desc)
+        {
+            IWebElement ele = Driver.Instance.FindElement(obj);
+                if (TestHelper.FindElement(obj, MaxWait, "finding Element in page  -  " + desc))
+                {
+                
+                    ele.Click();
+                    Logger.Info("clicking element    - " + desc);
+                }
+        }
+
+
+//find element
+ public static Boolean FindElement(By by, int maxWaitTimeInSeconds, string elementDesc)
+        {
+            int _i = 1;
+            Boolean element = false;
+            while (_i++ < maxWaitTimeInSeconds)
+            {
+                try
+                {
+                    WebDriverWait wait = new WebDriverWait(Driver.Instance, TimeSpan.FromSeconds(2));
+                    wait.Timeout = TimeSpan.FromSeconds(2);
+                    wait.PollingInterval = TimeSpan.FromMilliseconds(2000);
+                    wait.IgnoreExceptionTypes(typeof(NoSuchElementException));
+                    wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(@by));
+                    element = true;
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Thread.Sleep(2000);
+                    continue;
+                }
+            }
+
+            if (element == false)
+            {
+                Logger.Warn("Did not find element - " + elementDesc);
+                Driver.GetScreenShot(ScreenShotDir + TestHelper.TestcaseName + "-ElementNotFound.png");
+            }
+
+            return element;
+        }
+        
+        //
+         public static string RegisterIconPreLogin(string id)
+        {         
+            return $"a.register-icon[href='/Events/EventRegistrationRequest.aspx?Mode=AddNew&Id={id}']";
+         
         }
