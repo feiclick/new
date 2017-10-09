@@ -1,0 +1,30 @@
+  public void ANG_Register_RegisterIcon_Prelogin()
+
+        {
+            string[] depPhase = new string[] { DeploymentPhase.strTrainingName, DeploymentPhase.strPredeploymentName, DeploymentPhase.StrDemobilizationName };
+            LoginPage.Login();
+            EventListing.Addevents();
+            CreateEventProperties.EnterEventDefaultDtls();
+            CreateEventProperties.EnterAng(depPhase);
+            CreateEventBreakout.CreateBreakoutSessionManual("test automation", "session", CreateEventProperties.GetEventDate());
+            CreateEventBreakout.SaveDraft();  
+            
+            //get the id          
+            string currentUrl = Driver.Instance.Url;
+            Uri theUri = new Uri(currentUrl);
+            string id = HttpUtility.ParseQueryString(theUri.Query).Get("Id");
+
+            //publish          
+            CreateEventBreakout.Publish();      
+            Driver.Instance.SwitchTo().Alert().Accept();
+            testResult = PublishConfirmationPopUp.validate();
+            Driver.GetScreenShot(TestHelper.ScreenShotDir + TestHelper.TestcaseName + "-publish.png");
+            PublishConfirmationPopUp.GobackHome();  
+            
+            //pre login search event
+            EventListing.LogOut();
+            HomePage.Search(HostingComponent.StrAngName, DeploymentPhase.StrDemobilizationName);      
+            Thread.Sleep(2000);
+            TestHelper.ClickElement(By.CssSelector(TestHelper.RegisterIconPreLogin(id)), "click green icon");
+            Assert.AreEqual("Event Registration", Driver.Instance.Title);
+        }
