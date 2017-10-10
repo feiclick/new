@@ -1,3 +1,12 @@
+  https://sqa.stackexchange.com/questions/26278/selenium-webdriver-c-and-accessing-rows-in-a-table
+  
+  https://stackoverflow.com/questions/27603446/how-to-click-a-result-from-google-search-that-is-not-on-first-page-with-selenium 
+  
+  https://sqa.stackexchange.com/questions/1304/question-c-selenium-read-rows-from-html-table-until-the-last-row-is-found-an
+  
+  
+  
+  
   [TestMethod]
         public void CreateEvent_SaveDraft()
         {
