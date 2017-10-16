@@ -1,3 +1,13 @@
+In c#, FindElements returns a ReadOnlyCollection<IWebElement> object, not a List object. If you change your linkList definition, it should work:
+
+ReadOnlyCollection<IWebElement> linkList = Driver.Instance.FindElements(By.TagName("a"));
+You may also need to add this using:
+
+using System.Collections.ObjectModel;
+
+from: https://stackoverflow.com/questions/28572892/selenium-how-to-find-element-by-partial-href
+
+
 https://sqa.stackexchange.com/questions/26278/selenium-webdriver-c-and-accessing-rows-in-a-table/26279
 
 
