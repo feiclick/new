@@ -1,3 +1,14 @@
+///////////
+https://stackoverflow.com/questions/27613063/locating-a-link-using-href-text-and-a-stored-variable
+//////////
+Simply add the the variable you are storing before to the selector
+
+"[href*='Body/Students/Enrollment/EdStudentInfo.aspx?id='" + _studnetID + "']"
+or simply use the xpath pointing to a tag containing the id
+
+"//a[contains(@href,'" +_studnetID + "')]" 
+////////////
+
 In c#, FindElements returns a ReadOnlyCollection<IWebElement> object, not a List object. If you change your linkList definition, it should work:
 
 ReadOnlyCollection<IWebElement> linkList = Driver.Instance.FindElements(By.TagName("a"));
