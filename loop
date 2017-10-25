@@ -58,6 +58,11 @@ public virtual bool dealPotentialAlert(WebDriver driver, bool option)
 	return flag;
 }
 
+////////////////
+方法返回值为，调用出是否出现了alert。 
+参数列表中第二个参数option为期望对alert的处理方式（true:ok/false:cancle) 
+在selenium2.20及以上版本中，增加了alertIsPresent方法。 也可以将这个方法替换上面的内容。用于捕获alert
+
 /////////////////
 //等待几秒，可以为小数，单位为秒
 protected void AlertAccept(double waitseSonds)
