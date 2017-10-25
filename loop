@@ -1,0 +1,97 @@
+1. http://lijingshou.iteye.com/blog/1537378 
+
+http://uniquepig.iteye.com/blog/1703103 
+https://stackoverflow.com/questions/11467471/how-to-check-if-an-alert-exists-using-webdriver 
+
+　while (isAlertPresent())
+ { driver.switchTo().alert().accept(); pause (3000); }
+ 
+wait and close
+http://blog.csdn.net/fabbychips/article/details/51376609?locationNum=4 
+
+http://blog.csdn.net/liuzhicsdn/article/details/62427274  Alert弹框的多种处理
+/////////////
+sideflow.js ->ＩＤＥ　ｌｏｏｐ
+///////////////////
+using System;
+
+public virtual bool dealPotentialAlert(WebDriver driver, bool option)
+{
+	bool flag = false;
+	try
+	{
+		Alert alert = driver.switchTo().alert();
+		if (null == alert)
+		{
+			throw new NoAlertPresentException();
+		}
+		try
+		{
+			if (option)
+			{
+				alert.accept();
+				Console.WriteLine("Accept the alert: " + alert.Text);
+			}
+			else
+			{
+				alert.dismiss();
+				Console.WriteLine("Dismiss the alert: " + alert.Text);
+			}
+			flag = true;
+		}
+		catch (WebDriverException ex)
+		{
+			if (ex.Message.StartsWith("Could not find"))
+			{
+				Console.WriteLine("There is no alert appear!");
+			}
+			else
+			{
+				throw ex;
+			}
+		}
+	}
+	catch (NoAlertPresentException)
+	{
+		Console.WriteLine("There is no alert appear!");
+	}
+	return flag;
+}
+
+/////////////////
+//等待几秒，可以为小数，单位为秒
+protected void AlertAccept(double waitseSonds)
+
+{
+
+ double nsleepMillon = waitseSonds * 1000;
+
+ int k=0;
+
+ int split=50;
+
+IAlert alert = null;
+
+   do
+
+   {
+
+     k++;
+
+     Thread.Sleep(split);
+
+     alert = driver.SwitchTo().Alert();
+
+     } while (k * split <= nsleepMillon || alert==null);
+
+            if (alert != null)
+
+            {
+
+                alert.Accept();
+
+            }
+
+  } 
+
+  
