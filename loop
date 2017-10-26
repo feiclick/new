@@ -99,4 +99,38 @@ IAlert alert = null;
 
   } 
 
-  
+/////////////
+private void waitForAlertAndCloseAlert(WebDriver driver)
+   {
+		 int i = 0;
+		 while (i++<10)
+		 {
+			  try
+			  {
+				  Alert alert = driver.switchTo().alert();
+				  alert.accept();
+				  break;
+			  }
+			  catch (NoAlertPresentException)
+			  {
+				Thread.Sleep(1000);
+				continue;
+			  }
+		 }
+		 if (i == 9)
+		 {
+			 throw new NoAlertPresentException();
+		 }
+   }
+	  }
+///////////
+
+try{
+        if(webDriver.switchTo().alert() != null){
+           Alert alert = webDriver.switchTo().alert();
+           alert.getText();
+           //etc.
+        }
+    }catch(Exception e){}
+    /////////////
+    
