@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+
+public static bool testNewWindows(WebDriver driver)
+{
+//当前窗口句柄  
+string currentHandle = driver.WindowHandle;
+//得到所有窗口的句柄  
+ISet<string> handles = driver.WindowHandles;
+//不包括当前窗口  
+handles.remove(currentHandle);
+//存在窗口  
+if (handles.Count > 0)
+{
+	try
+	{
+	//定位窗口  
+		dr.switchTo().window(handles.GetEnumerator().next());
+		return true;
+	}
+	catch (Exception e)
+	{
+		Console.WriteLine(e.Message);
+		return false;
+	}
+}
+Console.WriteLine("Did not find window");
+return false;
+}
+
+//处理单个非alert弹窗  
+public static bool testNewWindow(WebDriver driver)
+{
+	try
+	{
+		//定位窗口  
+		driver.switchTo().window(driver.WindowHandles.GetEnumerator().next());
+		return true;
+	}
+	catch (Exception e)
+	{
+		Console.WriteLine(e.Message);
+		return false;
+	}
+}
