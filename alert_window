@@ -43,3 +43,5 @@ public static bool testNewWindow(WebDriver driver)
 		return false;
 	}
 }
+/////////////
+http://blog.csdn.net/huilan_same/article/details/52298460 window handle 
