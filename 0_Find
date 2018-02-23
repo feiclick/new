@@ -1,0 +1,95 @@
+eventlisting  
+  public static async Task<bool> FindEventLinks(string id, By actionClass)
+        {
+
+            By spinnerBy = By.ClassName("gridSpinnerTable");
+            int rownum = 0;
+            await ValidateEventPage();
+            await Common.WaitForSpinner(spinnerBy, TestHelper.MaxWait);
+            int x = Int32.Parse(TestHelper.GetText(PageloadElement).Split()[1]);
+            int loop = x / 49;
+
+            for (int page = 0; page <= loop; page++)
+            {
+                await Common.WaitForSpinner(spinnerBy, TestHelper.MaxWait);
+                await ValidateEventPage();
+                By tbl = By.Id("ctl00_cphCenterColumn_gridEventsListInner_dom");
+                await TestHelper.FindElement(tbl, TestHelper.MaxWait, "Search Event table , Page =" + (page + 1));
+                var container = Driver.Instance.FindElement(tbl);
+                var table = container.FindElement(By.TagName("table"));
+                var rows = table.FindElements(By.TagName("tr"));
+
+                // var rowNum = rows.Count.ToString();
+                //row 
+                //actionClass - ctl00_cphCenterColumn_gridEventsListInner_cell_{rowNum}_1
+                //id = ctl00_cphCenterColumn_gridEventsListInner_cell_1_1
+                // Events/EventDetails.aspx?Mode=ReadOnly&Id=
+                // Each page
+                foreach (var row in rows)
+                {
+                    IList<IWebElement> deploymentPhasesLinks = row.FindElements(actionClass);
+                    foreach (var deploymentPhasesLink in deploymentPhasesLinks)
+                    {
+                        var Cellid = deploymentPhasesLink.GetCssValue("id");
+                        if (Cellid.Equals(id))
+                        {
+                            deploymentPhasesLink.Click();
+                            return true;
+                        }
+                    }
+                    rownum++;
+                } // page ends here
+                if ((page + 1) <= loop)
+                {
+                    IList<IWebElement> btnnxt = Driver.Instance.FindElements(By.ClassName("next"));
+                    btnnxt[0].Click();
+                    await Common.WaitForSpinner(SpinnerBy, TestHelper.MaxWait);
+                }
+            }
+            return false;
+        }
+        
+        
+        ///////////
+        
+        
+        [TestMethod]
+        [TestCategory("Selenium")]
+        public async Task DeleteEvent()
+        {
+            await LoginPage.Login();
+            await EventListing.ValidateEventPage();
+
+            //Find 1st Event      
+            await TestHelper.ClickElement(FirstEvent, "radio btn excel");
+         
+            await EventDetails.DeleteEvent();
+
+            await DeleteEventPage.DeleteEventReason();
+            await DeleteEventPage.SendEventDeletionRequest();
+            await DeleteEventPage.ClickContinue();
+
+            //redirect to Event Details page
+            EventDetails.ValidatePendingDeleteMsg();
+
+            // Navigate to Event Listing page => loop => Delete All
+
+            //Event Deletion Requests =>need a loop to approve all events
+
+            //Navigate to Event Deletion Requests page
+            await EventListing.EventDeletionRequests();
+
+            //Approve Deletion             
+            await EventDeletionRequests.SelectDelete();
+            
+            //Popup & comments
+            await EventDeletionRequests.PopupDeleteConfirmation();
+            _testResult = await EventDeletionRequests.ValidateDeleteMsg();
+
+            //Event Deletion Requests 
+            // table == IList<IWebElement> li = Driver.Instance.FindElements(By.ClassName("tableOddRow"));
+
+
+        }
+
+        
