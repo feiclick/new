@@ -1,0 +1,5 @@
+public List<(string Category, int Count)> CategoryC { get; set; }
+
+=> model:
+//List<(string Category, int Count)> categorycount
+  CategoryC = new List<(string Category, int Count)> { } ??
