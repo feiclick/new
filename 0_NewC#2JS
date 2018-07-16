@@ -1,0 +1,26 @@
+ private static string TwoFaCode(string skey)
+        {
+            string stringFromSql = skey;
+            List<byte> byteList = new List<byte>();
+
+            string hexPart = stringFromSql.Substring(2);
+            for (int i = 0; i < hexPart.Length / 2; i++)
+            {
+                string hexNumber = hexPart.Substring(i * 2, 2);
+                byteList.Add((byte)Convert.ToInt32(hexNumber, 16));
+            }
+
+            byte[] secretKey = byteList.ToArray();
+            string code = SecurityDriven.Inferno.Otp.TOTP.GenerateTOTP(secret: secretKey).ToString();
+
+            if (code.Length < 6)
+            {
+                string strZero = "";
+                for (var i = 1; i <= (6 - code.Length); i++)
+                {
+                    strZero = "0" + strZero;
+                }
+                code = strZero + code;
+            }
+            return code;
+        }
