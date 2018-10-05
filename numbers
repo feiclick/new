@@ -1,0 +1,75 @@
+ 
+ draft
+ public static List<string> GetLifeTimeRandomNumbers2(int count, int phoneNb)
+        {
+            var randomPhoneNumbers = new List<string>();
+
+            var randomize = new Random();
+
+            if (randomPhoneNumbers.Count < 1000)
+
+            {
+
+                for (int i = 0; i < count; i++)
+                {
+                    int randomNumber = randomize.Next(9999999);
+
+                    if (_lifeTimeNumbers.Contains(randomNumber))
+                    {
+                        continue;
+                    }
+
+                    if (randomPhoneNumbers.Contains(randomNumber.ToString()))
+                    {
+                        continue;
+                    }
+
+                    _lifeTimeNumbers.Add(randomNumber);
+
+                    var phoneNumber = 1000000000 + randomNumber + i;
+
+                    randomPhoneNumbers.Add("+1" + phoneNumber);
+
+                }
+
+
+            }
+
+
+
+            return randomPhoneNumbers;
+        }
+
+
+--------------------OLD ----------
+  public static List<string> GetLifeTimeRandomNumbers(int count)
+        {
+            var randomPhoneNumbers = new List<string>();
+            
+            var randomize = new Random();
+
+            for (int i = 0; i < count; i++)
+            {
+                int randomNumber = randomize.Next(9999999);
+
+                if (_lifeTimeNumbers.Contains(randomNumber))
+                {
+                    continue;
+                }
+
+                if (randomPhoneNumbers.Contains(randomNumber.ToString()))
+                {
+                    continue;
+                }
+
+                _lifeTimeNumbers.Add(randomNumber);
+
+                var phoneNumber = 1000000000 + randomNumber + i;
+
+                randomPhoneNumbers.Add("+1" + phoneNumber);
+                
+            }
+
+            
+            return randomPhoneNumbers;
+        }
