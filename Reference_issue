@@ -1,0 +1,25 @@
+remove the following from the .csproj file:
+
+How?
+
+Right click on project. Unload Project.
+Right click on project. Edit csproj.
+Remove the part from the file. Save.
+Right click on project. Reload Project.
+
+remove Error Condition elements from here??
+
+<Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+<Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+  <PropertyGroup>
+    <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+  </PropertyGroup>
+  <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+</Target>
+
+
+
+https://stackoverflow.com/questions/22909506/this-project-references-nuget-packages-that-are-missing-on-this-computer
+
+-----------
+https://docs.microsoft.com/en-us/nuget/consume-packages/package-restore
