@@ -18,8 +18,10 @@ remove Error Condition elements from here??
 </Target>
 
 
-
 https://stackoverflow.com/questions/22909506/this-project-references-nuget-packages-that-are-missing-on-this-computer
 
 -----------
 https://docs.microsoft.com/en-us/nuget/consume-packages/package-restore
+-----------
+https://docs.microsoft.com/en-us/xamarin/cross-platform/troubleshooting/questions/nuget-packages-missing
+->Version number -delete all of the elements that reference the old version number.
