@@ -1,3 +1,57 @@
+var addEventMandatoryChecked = new RegistrationTab(driverInstance).GetRegistrationFieldsList2("MandatoryList");
+----------------------switch case -----------
+      public string[] GetRegistrationFieldsList2(string option)
+        {
+            string[] text = new string[] { };
+
+            switch (option)
+                {
+                    case "Label":
+                        IList<IWebElement> Labels = DriverInstance.FindElements(By.XPath("//*[contains(@id, 'customFieldFieldLabel')]"));
+                        var i = 0;
+                        string[] labelTextList = new string[Labels.Count];
+
+                        foreach (IWebElement element in Labels)
+                        {
+                            labelTextList[i++] = element.Text;
+
+                        }
+                        return labelTextList;
+
+                    case "DisplayList":
+                        IList<IWebElement> displayCheckboxes = DriverInstance.FindElements(By.XPath("//*[contains(@id, 'customFieldDisplay')]"));
+                        var x = 0;
+                        string[] displayCheckboxesList = new string[displayCheckboxes.Count];
+
+                        foreach (IWebElement element in displayCheckboxes)
+                        {
+                            displayCheckboxesList[x++] = element.GetAttribute("Selected");
+
+                        }
+                        return displayCheckboxesList;
+
+                    case "MandatoryList":
+
+                        IList<IWebElement> mandatoryCheckboxes = DriverInstance.FindElements(By.XPath("//*[contains(@id, 'customFieldMandatory')]"));
+                        var y = 0;
+                        string[] mandatoryCheckboxesList = new string[mandatoryCheckboxes.Count];
+
+                        foreach (IWebElement element in mandatoryCheckboxes)
+                        {
+                            mandatoryCheckboxesList[y++] = element.GetAttribute("Selected");
+                        }
+
+                        return mandatoryCheckboxesList;
+                      
+                }
+
+                return text; 
+
+
+        }
+
+----------------------------
+
 public string[] GetRegistrationFieldsList(string field)
         {
             string[] text = new string[] { };
