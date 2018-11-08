@@ -1,0 +1,73 @@
+public string[] GetRegistrationFieldsList(string field)
+        {
+            string[] text = new string[] { };
+            //IList<IWebElement> editEventLabels = DriverInstance.FindElements(obj);
+            //var i = 0;
+            //string[] fieldsCount = new string[editEventLabels.Count];
+
+            //foreach (IWebElement element in editEventLabels)
+            //{
+             
+            //    fieldsCount[i++] = attribute;
+            //    //fieldsCount[i++] = string.Concat(element,attribute);
+
+            //   // fieldsCount[i++] = element.Text;
+            //}
+
+            //return fieldsCount; 
+
+            if(field == "Label")
+            {
+                IList<IWebElement> Labels = DriverInstance.FindElements(By.XPath("//*[contains(@id, 'customFieldFieldLabel')]"));
+                var i = 0;
+                string[] labelTextList = new string[Labels.Count];
+
+                foreach (IWebElement element in Labels)
+                {
+                    labelTextList[i++] = element.Text;
+                    
+                }
+                return labelTextList;
+            }
+            
+
+            if (field == "DisplayList")
+            {
+                IList<IWebElement> displayCheckboxes = DriverInstance.FindElements(By.XPath("//*[contains(@id, 'customFieldDisplay')]"));
+                var i = 0;
+                string[] displayCheckboxesList = new string[displayCheckboxes.Count];
+
+                foreach (IWebElement element in displayCheckboxes)
+                {
+                    displayCheckboxesList[i++] = element.GetAttribute("Selected");
+                  
+                }
+                return displayCheckboxesList;
+
+            }
+
+            if(field == "MandatoryList")
+            {
+                IList<IWebElement> mandatoryCheckboxes = DriverInstance.FindElements(By.XPath("//*[contains(@id, 'customFieldMandatory')]"));
+                var i = 0;
+                string[] mandatoryCheckboxesList = new string[mandatoryCheckboxes.Count];
+
+                foreach (IWebElement element in mandatoryCheckboxes)
+                {
+                    mandatoryCheckboxesList[i++] = element.GetAttribute("Selected");
+                   
+                }
+
+                return mandatoryCheckboxesList;
+            }
+
+
+            return text;
+
+
+
+        }
+        
+        ------------------ use ------------------------
+                        var addEventTextLabels = new RegistrationTab(driverInstance).GetRegistrationFieldsList("Label");
+                        
